@@ -27,6 +27,17 @@ interface Content {
 
 // for the seek of import
 export default class DellAnalyzer implements Analyzer {
+  private static instance: DellAnalyzer;
+
+  static getInstance() {
+    if (!DellAnalyzer.instance) {
+      DellAnalyzer.instance = new DellAnalyzer();
+    }
+    return DellAnalyzer.instance;
+  }
+
+  private constructor() {}
+
   private getCourseInfo(html: string) {
     const $ = cheerio.load(html); // load html text
     const courseItems = $(".course-item"); // find class named 'course-item'

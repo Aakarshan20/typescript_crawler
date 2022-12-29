@@ -15,16 +15,16 @@ export interface Analyzer {
 class Crawler {
   private filePath = path.resolve(__dirname, `../data/${this.fileName}`); // generate path ../data/course.json
 
-  async getRawHtml() {
+  private async getRawHtml() {
     const result = await superagent.get(this.url);
     return result.text;
   }
 
-  writeFile(content: string) {
+  private writeFile(content: string) {
     fs.writeFileSync(this.filePath, content);
   }
 
-  async initSpiderProcess() {
+  private async initSpiderProcess() {
     // for decoupling
     const html = await this.getRawHtml();
     const fileContent = this.analyzer.analyze(html, this.filePath);
@@ -44,8 +44,8 @@ const secret = "secretKey";
 const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`; // 勿斷行, superagent 讀不到
 const fileName = "course.json"; // the filename saved
 
-const analyzer = new DellAnalyzer();
+const analyzer = DellAnalyzer.getInstance();
 new Crawler(url, fileName, analyzer);
 
-const analyzer2 = new LeeAnalyzer();
-new Crawler(url, "fullhtml.html", analyzer2);
+//const analyzer2 = new LeeAnalyzer();
+//new Crawler(url, "fullhtml.html", analyzer2);
