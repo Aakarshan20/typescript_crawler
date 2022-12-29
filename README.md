@@ -1,24 +1,25 @@
 # typescript_crawler
 
 ## install in this project(develop)
-``` npm install -D ts-node  ```
 
-``` npm install typescript -D ```
+`npm install -D ts-node `
+
+`npm install typescript -D`
 
 ## run package.json scripts: dev
-``` npm run dev ```
+
+`npm run dev`
 
 ## install remote visit tools
-``` npm install superagent --save ```
+
+`npm install superagent --save`
 
 ## install translate file for ts
-``` npm i --save-dev @types/superagent ```
 
-``` npm i --save-dev @types/cheerio ```
+`npm i --save-dev @types/superagent`
 
-*details below*
+`npm i --save-dev @types/cheerio`
 
-```https://www.npmjs.com/package/@types/superagent```
+_details below_
 
-
-
+`https://www.npmjs.com/package/@types/superagent`
