@@ -1,57 +1,118 @@
 # typescript_crawler
 
-### init
-* generate package.json
+## init
 
-``` npm init -y ```
+- generate package.json
 
-* generate tsconfig.json
+``` 
+npm init -y
+```
 
-``` tsc -- init ```
+- generate tsconfig.json
 
-### uninstall ts-node
-``` npm uninstall ts-node -g ```
+```
+tsc -- init
+```
 
-## install in this project(develop)
+## uninstall ts-node global and install it in this project only
 
-`npm install -D ts-node `
+- uninstall ts-node
 
-`npm install typescript -D`
+```
+npm uninstall ts-node -g
+```
 
-*see package.json and check devDependencies: ts-node*
+- install in this project(develop)
 
-## run package.json scripts: dev
+```
+npm install -D ts-node 
+```
+## install typescript in this project ( develop )
 
-`npm run dev`
+```
+npm install typescript -D
+```
 
-## run package.json scripts: build
+_see package.json and check devDependencies: ts-node_
 
-`npm run build`
+## run package.json scripts: "dev:dev"
+
+```
+npm run ts-node
+```
+
+## detected ts file change
+## run package.json scripts: "dev:build"
+
+```
+npm run dev:build
+```
 
 - might got messages below : File change detected. Starting incremental compilation...
 
+## run package.json scripts: dev:start
+
 ```
-"scripts": {
-    "dev": "ts-node ./src/crawler.ts",
-    "build": "tsc -w" // -w: Watching for file changes.
-  }
+ npm run dev:start 
 ```
 
 - once file changes, it builds js file automatically
 
 - will transform all ts files to js files and save to outDir ( set in tsconfig.json, default = ./ ) \*
 
+- then nodemon will find js file changed, it runs ``` node ./build/crawler.js ``` immediately
+
+## install concurrently 
+```
+npm install concurrently -D
+```
+
+```
+"scripts": {
+    "ts-node": "ts-node ./src/crawler.ts",
+    "dev:build": "tsc -w" // -w: Watching for file changes.
+    "dev:start":"nodemon node ./build/crawler.js",
+    "dev":"concurrently npm:dev:*" // run all dev commands
+  }
+```
+
+## detect js file change
+
+- install nodemon
+
+``` 
+npm install nodemon -D 
+```
+
+- add the code below to package.json
+
+```
+  "nodemonConfig": {
+    "ignore": ["data/*"] // ignore files
+  },
+```
+
 ## install remote visit tools
 
-`npm install superagent --save`
+```
+npm install superagent --save
+```
 
-## install translate file for ts
+## install translate file (superagent, cheerio) for ts
 
-`npm i --save-dev @types/superagent`
+```
+npm i --save-dev @types/superagent
+```
 
-`npm i --save-dev @types/cheerio`
+```
+npm i --save-dev @types/cheerio
+```
 
 _details below_
 
-`https://www.npmjs.com/package/@types/superagent`
+```
+https://www.npmjs.com/package/@types/superagent
+```
+
+
 

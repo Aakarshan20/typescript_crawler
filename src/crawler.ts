@@ -46,6 +46,5 @@ const fileName = "course.json"; // the filename saved
 
 const analyzer = DellAnalyzer.getInstance();
 new Crawler(url, fileName, analyzer);
-
 //const analyzer2 = new LeeAnalyzer();
 //new Crawler(url, "fullhtml.html", analyzer2);
