@@ -1,0 +1,23 @@
+{
+  "name": "typescript_crawler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aakarshan20/typescript_crawler.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Aakarshan20/typescript_crawler/issues"
+  },
+  "homepage": "https://github.com/Aakarshan20/typescript_crawler#readme",
+  "devDependencies": {
+    "ts-node": "^10.9.1"
+  }
+}
