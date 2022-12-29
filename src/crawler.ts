@@ -1,74 +1,51 @@
 // ts->.d.ts(translate file) ->js
 // visit https://www.npmjs.com/package/node and search @types/[js file you wanna translate]
 import superagent from "superagent"; // ts cannot read js file
-import cheerio from "cheerio";
-
 import fs from "fs"; // from node
 import path from "path"; // from node
 
-interface Course {
-  // for array
-  title: string;
-  count: number;
+import DellAnalyzer from "./dellAnalyzer";
+import LeeAnalyzer from "./leeAnalyzer";
+
+export interface Analyzer {
+  analyze: (html: string, filePath: string) => string;
 }
 
-interface CourseResult {
-  time: number;
-  data: Course[];
-}
-
-interface Content {
-  [propName: number]: Course[];
-}
-
+// common logic
 class Crawler {
-  private secret = "secretKey";
-  private url = `http://www.dell-lee.com/typescript/demo.html?secret=${this.secret}`; // 勿斷行, superagent 讀不到
-
-  getCourseInfo(html: string) {
-    const $ = cheerio.load(html); // load html text
-    const courseItems = $(".course-item"); // find class named 'course-item'
-    const courseInfos: Course[] = []; // for parse result
-
-    courseItems.map((index, element) => {
-      // for loop: like key value pair
-      const descs = $(element).find(".course-desc"); //find class named 'course-desc' in value
-      const title = descs.eq(0).text(); // get first element and get it's text
-      const count = parseInt(descs.eq(1).text().split("：")[1], 10); // similar to uppon but parse to int
-      courseInfos.push({ title, count }); // add into array
-    });
-
-    return {
-      time: new Date().getTime(),
-      data: courseInfos,
-    };
-  }
+  private filePath = path.resolve(__dirname, `../data/${this.fileName}`); // generate path ../data/course.json
 
   async getRawHtml() {
     const result = await superagent.get(this.url);
     return result.text;
   }
 
-  generateJsonContent(courseInfo: CourseResult) {
-    const filePath = path.resolve(__dirname, "../data/course.json"); // generate path ../data/course.json
-    let fileContent: Content = {};
-    if (fs.existsSync(filePath)) {
-      fileContent = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-    }
-    fileContent[courseInfo.time] = courseInfo.data;
-    console.log(fileContent);
-    fs.writeFileSync(filePath, JSON.stringify(fileContent));
+  writeFile(content: string) {
+    fs.writeFileSync(this.filePath, content);
   }
 
   async initSpiderProcess() {
     // for decoupling
     const html = await this.getRawHtml();
-    const courseInfo = this.getCourseInfo(html);
-    this.generateJsonContent(courseInfo);
+    const fileContent = this.analyzer.analyze(html, this.filePath);
+    this.writeFile(fileContent);
   }
-  constructor() {
+  constructor(
+    private url: string,
+    private fileName: string,
+    private analyzer: Analyzer
+  ) {
+    this.fileName = fileName;
     this.initSpiderProcess();
   }
 }
 
-const crawler = new Crawler();
+const secret = "secretKey";
+const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`; // 勿斷行, superagent 讀不到
+const fileName = "course.json"; // the filename saved
+
+const analyzer = new DellAnalyzer();
+new Crawler(url, fileName, analyzer);
+
+const analyzer2 = new LeeAnalyzer();
+new Crawler(url, "fullhtml.html", analyzer2);
