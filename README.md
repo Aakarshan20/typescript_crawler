@@ -128,3 +128,17 @@ npm i --save-dev @types/express
 npm install body-parser --save
 ```
 
+## login via cookie session
+
+- ref
+
+```
+https://github.com/expressjs/cookie-session
+```
+
+- install
+
+```
+ npm install cookie-session -save
+```
+

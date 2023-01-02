@@ -4,6 +4,6 @@
 // 解決方法: 類型融合(自動)
 declare namespace Express {
     interface Request{
-        teacherName: string;
+        //teacherName: string;
     }
 }
