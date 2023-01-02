@@ -3,11 +3,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = require("express");
-const dellAnalyzer_1 = __importDefault(require("./dellAnalyzer"));
-const crawler_1 = __importDefault(require("./crawler"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
+const express_1 = require("express");
+const analyzer_1 = __importDefault(require("./utils/analyzer"));
+const crawler_1 = __importDefault(require("./utils/crawler"));
+const util_1 = require("./utils/util");
+const checkLogin = (req, res, next) => {
+    const isLogin = req.session ? req.session.login : false;
+    if (isLogin) {
+        next();
+    }
+    else {
+        res.json((0, util_1.getResponseData)(false, 'please login'));
+    }
+};
 const router = (0, express_1.Router)();
 router.get('/', (req, res) => {
     const isLogin = req.session ? req.session.login : false;
@@ -39,37 +49,25 @@ router.get('/logout', (req, res) => {
     if (req.session) {
         req.session.login = undefined;
     }
-    res.redirect('/');
+    //res.redirect('/');
+    res.json((0, util_1.getResponseData)(true));
 });
-router.get('/getData', (req, res) => {
-    const isLogin = req.session ? req.session.login : false;
-    if (isLogin) {
-        const secret = "secretKey";
-        const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`; // 勿斷行, superagent 讀不到
-        const fileName = "course.json"; // the filename saved
-        const analyzer = dellAnalyzer_1.default.getInstance();
-        new crawler_1.default(url, fileName, analyzer);
-        res.send('get data success!!');
-    }
-    else {
-        //res.send(`${req.teacherName} : password error!`)
-        res.send(' please login!');
-    }
+router.get('/getData', checkLogin, (req, res) => {
+    const secret = "secretKey";
+    const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`; // 勿斷行, superagent 讀不到
+    const fileName = "course.json"; // the filename saved
+    const analyzer = analyzer_1.default.getInstance();
+    new crawler_1.default(url, fileName, analyzer);
+    res.json((0, util_1.getResponseData)(true));
 });
-router.get('/showData', (req, res) => {
-    const isLogin = req.session ? req.session.login : false;
-    if (isLogin) {
-        try {
-            const position = path_1.default.resolve(__dirname, '../data/course.json');
-            const result = fs_1.default.readFileSync(position, 'utf8');
-            res.json(JSON.parse(result));
-        }
-        catch (e) {
-            res.send('content empty');
-        }
+router.get('/showData', checkLogin, (req, res) => {
+    try {
+        const position = path_1.default.resolve(__dirname, '../data/course.json');
+        const result = fs_1.default.readFileSync(position, 'utf8');
+        res.json((0, util_1.getResponseData)(JSON.parse(result)));
     }
-    else {
-        res.send(' please login!');
+    catch (e) {
+        res.json((0, util_1.getResponseData)(false, 'content error!'));
     }
 });
 router.post('/login', (req, res) => {
@@ -78,15 +76,15 @@ router.post('/login', (req, res) => {
     const { password } = req.body;
     const isLogin = req.session ? req.session.login : false;
     if (isLogin) {
-        res.send('You have already logged in.');
+        res.json((0, util_1.getResponseData)(false, 'you have already logged in'));
     }
     else {
         if (password === '123' && req.session) {
             req.session.login = true;
-            res.send('login success!!');
+            res.json((0, util_1.getResponseData)(true));
         }
         else {
-            res.send('login fail!');
+            res.json((0, util_1.getResponseData)(false, 'login fail!'));
         }
     }
 });
