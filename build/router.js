@@ -22,7 +22,8 @@ router.get('/', (req, res) => {
 router.post('/getData', (req, res) => {
     //console.log(req.body)
     //once req.body is undefined, it have to install middleware 
-    if (req.body.password === '123') {
+    const { password } = req.body;
+    if (password === '123') {
         const secret = "secretKey";
         const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`; // 勿斷行, superagent 讀不到
         const fileName = "course.json"; // the filename saved
@@ -31,7 +32,7 @@ router.post('/getData', (req, res) => {
         res.send('get data success!!');
     }
     else {
-        res.send('password error!');
+        res.send(`${req.teacherName} : password error!`);
     }
 });
 exports.default = router;

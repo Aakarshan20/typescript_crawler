@@ -1,4 +1,4 @@
-import express , {Request, Response}from 'express';
+import express , {Request, Response, NextFunction}from 'express';
 import router from './router'
 import bodyParser from 'body-parser'
 
@@ -7,6 +7,10 @@ import bodyParser from 'body-parser'
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false })); // have to before .use(router)
+app.use((req: Request, res: Response, next:NextFunction)=>{
+    req.teacherName = 'dell'; // 因為定義了custom.d.ts 所以request的內容進行了融合
+    next();
+})
 app.use(router);
 
 app.listen(7001, ()=>{
