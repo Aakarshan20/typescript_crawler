@@ -17,7 +17,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const superagent_1 = __importDefault(require("superagent")); // ts cannot read js file
 const fs_1 = __importDefault(require("fs")); // from node
 const path_1 = __importDefault(require("path")); // from node
-const dellAnalyzer_1 = __importDefault(require("./dellAnalyzer"));
 // common logic
 class Crawler {
     getRawHtml() {
@@ -46,10 +45,12 @@ class Crawler {
         this.initSpiderProcess();
     }
 }
-const secret = "secretKey";
-const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`; // 勿斷行, superagent 讀不到
-const fileName = "course.json"; // the filename saved
-const analyzer = dellAnalyzer_1.default.getInstance();
-new Crawler(url, fileName, analyzer);
+exports.default = Crawler;
+// 以下代碼移至  router.ts
+// const secret = "secretKey";
+// const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`; // 勿斷行, superagent 讀不到
+// const fileName = "course.json"; // the filename saved
+// const analyzer = DellAnalyzer.getInstance();
+// new Crawler(url, fileName, analyzer);
 //const analyzer2 = new LeeAnalyzer();
 //new Crawler(url, "fullhtml.html", analyzer2);

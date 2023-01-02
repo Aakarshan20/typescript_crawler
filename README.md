@@ -114,5 +114,14 @@ _details below_
 https://www.npmjs.com/package/@types/superagent
 ```
 
+## express
+
+```
+npm install express --save
+```
+
+``` 
+npm i --save-dev @types/express
+```
 
 

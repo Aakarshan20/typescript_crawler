@@ -40,11 +40,15 @@ class Crawler {
   }
 }
 
-const secret = "secretKey";
-const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`; // 勿斷行, superagent 讀不到
-const fileName = "course.json"; // the filename saved
+export default Crawler;
 
-const analyzer = DellAnalyzer.getInstance();
-new Crawler(url, fileName, analyzer);
+
+// 以下代碼移至  router.ts
+// const secret = "secretKey";
+// const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`; // 勿斷行, superagent 讀不到
+// const fileName = "course.json"; // the filename saved
+
+// const analyzer = DellAnalyzer.getInstance();
+// new Crawler(url, fileName, analyzer);
 //const analyzer2 = new LeeAnalyzer();
 //new Crawler(url, "fullhtml.html", analyzer2);
