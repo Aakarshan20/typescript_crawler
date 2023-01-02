@@ -124,4 +124,7 @@ npm install express --save
 npm i --save-dev @types/express
 ```
 
+```
+npm install body-parser --save
+```
 
