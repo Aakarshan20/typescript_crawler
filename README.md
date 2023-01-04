@@ -4,7 +4,7 @@
 
 - generate package.json
 
-``` 
+```
 npm init -y
 ```
 
@@ -25,8 +25,9 @@ npm uninstall ts-node -g
 - install in this project(develop)
 
 ```
-npm install -D ts-node 
+npm install -D ts-node
 ```
+
 ## install typescript in this project ( develop )
 
 ```
@@ -42,6 +43,7 @@ npm run ts-node
 ```
 
 ## detected ts file change
+
 ## run package.json scripts: "dev:build"
 
 ```
@@ -53,16 +55,17 @@ npm run dev:build
 ## run package.json scripts: dev:start
 
 ```
- npm run dev:start 
+ npm run dev:start
 ```
 
 - once file changes, it builds js file automatically
 
 - will transform all ts files to js files and save to outDir ( set in tsconfig.json, default = ./ ) \*
 
-- then nodemon will find js file changed, it runs ``` node ./build/crawler.js ``` immediately
+- then nodemon will find js file changed, it runs `node ./build/crawler.js` immediately
 
-## install concurrently 
+## install concurrently
+
 ```
 npm install concurrently -D
 ```
@@ -80,8 +83,8 @@ npm install concurrently -D
 
 - install nodemon
 
-``` 
-npm install nodemon -D 
+```
+npm install nodemon -D
 ```
 
 - add the code below to package.json
@@ -120,7 +123,7 @@ https://www.npmjs.com/package/@types/superagent
 npm install express --save
 ```
 
-``` 
+```
 npm i --save-dev @types/express
 ```
 
@@ -142,3 +145,8 @@ https://github.com/expressjs/cookie-session
  npm install cookie-session -save
 ```
 
+## install reflect-metadata
+
+```
+npm  install reflect-metadata --save
+```

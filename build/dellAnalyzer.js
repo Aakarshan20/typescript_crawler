@@ -3,45 +3,47 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const cheerio_1 = __importDefault(require("cheerio"));
-const fs_1 = __importDefault(require("fs")); // from node
+var cheerio_1 = __importDefault(require("cheerio"));
+var fs_1 = __importDefault(require("fs")); // from node
 // for the seek of import
-class DellAnalyzer {
-    static getInstance() {
+var DellAnalyzer = /** @class */ (function () {
+    function DellAnalyzer() {
+    }
+    DellAnalyzer.getInstance = function () {
         if (!DellAnalyzer.instance) {
             DellAnalyzer.instance = new DellAnalyzer();
         }
         return DellAnalyzer.instance;
-    }
-    constructor() { }
-    getCourseInfo(html) {
-        const $ = cheerio_1.default.load(html); // load html text
-        const courseItems = $(".course-item"); // find class named 'course-item'
-        const courseInfos = []; // for parse result
-        courseItems.map((index, element) => {
+    };
+    DellAnalyzer.prototype.getCourseInfo = function (html) {
+        var $ = cheerio_1.default.load(html); // load html text
+        var courseItems = $(".course-item"); // find class named 'course-item'
+        var courseInfos = []; // for parse result
+        courseItems.map(function (index, element) {
             // for loop: like key-value pair
-            const descs = $(element).find(".course-desc"); //find class named 'course-desc' in value
-            const title = descs.eq(0).text(); // get first element and get it's text
-            const count = parseInt(descs.eq(1).text().split("：")[1], 10); // similar to uppon but parse to int
-            courseInfos.push({ title, count }); // add into array
+            var descs = $(element).find(".course-desc"); //find class named 'course-desc' in value
+            var title = descs.eq(0).text(); // get first element and get it's text
+            var count = parseInt(descs.eq(1).text().split("：")[1], 10); // similar to uppon but parse to int
+            courseInfos.push({ title: title, count: count }); // add into array
         });
         return {
             time: new Date().getTime(),
             data: courseInfos,
         };
-    }
-    generateJsonContent(courseInfo, filePath) {
-        let fileContent = {};
+    };
+    DellAnalyzer.prototype.generateJsonContent = function (courseInfo, filePath) {
+        var fileContent = {};
         if (fs_1.default.existsSync(filePath)) {
             fileContent = JSON.parse(fs_1.default.readFileSync(filePath, "utf-8"));
         }
         fileContent[courseInfo.time] = courseInfo.data;
         return fileContent;
-    }
-    analyze(html, filePath) {
-        const courseInfo = this.getCourseInfo(html);
-        const fileContent = this.generateJsonContent(courseInfo, filePath);
+    };
+    DellAnalyzer.prototype.analyze = function (html, filePath) {
+        var courseInfo = this.getCourseInfo(html);
+        var fileContent = this.generateJsonContent(courseInfo, filePath);
         return JSON.stringify(fileContent);
-    }
-}
+    };
+    return DellAnalyzer;
+}());
 exports.default = DellAnalyzer;
