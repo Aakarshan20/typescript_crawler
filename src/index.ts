@@ -1,6 +1,8 @@
 //import express , {Request, Response, NextFunction}from 'express';
 import express from 'express';
-import router from './router'
+//import router from './router'
+import { router } from './controller/decorators';
+import './controller/LoginController';
 import bodyParser from 'body-parser'
 import cookieSession from 'cookie-session';
 

@@ -1,3 +1,4 @@
+/*
 import fs from 'fs';
 import path from 'path';
 import { Router, Request, Response, NextFunction } from 'express';
@@ -72,3 +73,4 @@ router.post('/login', (req: BodyRequest, res: Response) => {
 });
 
 export default router;
+*/

@@ -5,7 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 //import express , {Request, Response, NextFunction}from 'express';
 var express_1 = __importDefault(require("express"));
-var router_1 = __importDefault(require("./router"));
+//import router from './router'
+var decorators_1 = require("./controller/decorators");
+require("./controller/LoginController");
 var body_parser_1 = __importDefault(require("body-parser"));
 var cookie_session_1 = __importDefault(require("cookie-session"));
 // 問題1: express 庫的類型定義文件 .d.ts 文件類型描述不準確
@@ -22,7 +24,7 @@ app.use((0, cookie_session_1.default)({
     // Cookie Options
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }));
-app.use(router_1.default);
+app.use(decorators_1.router);
 app.listen(7001, function () {
     console.log('server is running');
 });

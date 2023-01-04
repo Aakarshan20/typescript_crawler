@@ -1,5 +1,7 @@
-import { Request, Response } from 'express';
+import { request, Request, Response } from 'express';
 import 'reflect-metadata';
+import { get, controller } from './decorators';
+import { getResponseData } from '../utils/util';
 
 // 問題1: express 庫的類型定義文件 .d.ts 文件類型描述不準確
 // 解決: 對引入的具體內容做修改
@@ -9,34 +11,16 @@ interface BodyRequest extends Request {
   };
 }
 
-function controller(target: any) {
-  console.log(7777);
-
-  console.log(target);
-
-  console.log(target.prototype);
-  for (let key in Object.getOwnPropertyNames(target.prototype)) {
-    console.log(8888);
-    console.log(key);
-    console.log(
-      Reflect.getMetadata(
-        'path',
-        Object.getOwnPropertyNames(target.prototype),
-        key
-      )
-    );
-  }
-}
-
-function get(path: string) {
-  console.log(9999);
-  return function (target: any, key: string) {
-    Reflect.defineMetadata('path', path, target, key);
-  };
-}
-
 @controller
 class LoginController {
+  @get('/logout')
+  logout(req: BodyRequest, res: Response){
+    if (req.session) {
+      req.session.login = undefined;
+    }
+    //res.redirect('/');
+    res.json(getResponseData(true));
+  }
   @get('/')
   home(req: BodyRequest, res: Response) {
     const isLogin = req.session ? req.session.login : false;

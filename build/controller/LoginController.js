@@ -10,25 +10,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
-function controller(target) {
-    console.log(7777);
-    console.log(target);
-    console.log(target.prototype);
-    for (var key in Object.getOwnPropertyNames(target.prototype)) {
-        console.log(8888);
-        console.log(key);
-        console.log(Reflect.getMetadata('path', Object.getOwnPropertyNames(target.prototype), key));
-    }
-}
-function get(path) {
-    console.log(9999);
-    return function (target, key) {
-        Reflect.defineMetadata('path', path, target, key);
-    };
-}
+var decorators_1 = require("./decorators");
+var util_1 = require("../utils/util");
 var LoginController = /** @class */ (function () {
     function LoginController() {
     }
+    LoginController.prototype.logout = function (req, res) {
+        if (req.session) {
+            req.session.login = undefined;
+        }
+        //res.redirect('/');
+        res.json((0, util_1.getResponseData)(true));
+    };
     LoginController.prototype.home = function (req, res) {
         var isLogin = req.session ? req.session.login : false;
         if (isLogin) {
@@ -39,13 +32,19 @@ var LoginController = /** @class */ (function () {
         }
     };
     __decorate([
-        get('/'),
+        (0, decorators_1.get)('/logout'),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object]),
+        __metadata("design:returntype", void 0)
+    ], LoginController.prototype, "logout", null);
+    __decorate([
+        (0, decorators_1.get)('/'),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object, Object]),
         __metadata("design:returntype", void 0)
     ], LoginController.prototype, "home", null);
     LoginController = __decorate([
-        controller
+        decorators_1.controller
     ], LoginController);
     return LoginController;
 }());

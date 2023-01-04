@@ -4,10 +4,11 @@
   "description": "``` npm install -D ts-node  ```",
   "main": "index.js",
   "scripts": {
-    "ts-node": "ts-node ./src/crawler.ts",
+    "ts-node": "ts-node ./src/utils/crawler.ts",
     "dev:build": "tsc -w",
     "dev:start": "nodemon node ./build/index.js",
-    "dev": "tsc && concurrently npm:dev:*"
+    "dev": "tsc && concurrently npm:dev:*",
+    "test":"tsc && node ./build/controller/LoginController.js"
   },
   "nodemonConfig": {
     "ignore": [
