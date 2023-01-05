@@ -15,6 +15,22 @@ var util_1 = require("../utils/util");
 var LoginController = /** @class */ (function () {
     function LoginController() {
     }
+    LoginController.prototype.login = function (req, res) {
+        var password = req.body.password;
+        var isLogin = req.session ? req.session.login : false;
+        if (isLogin) {
+            res.json((0, util_1.getResponseData)(false, 'you have already logged in'));
+        }
+        else {
+            if (password === '123' && req.session) {
+                req.session.login = true;
+                res.json((0, util_1.getResponseData)(true));
+            }
+            else {
+                res.json((0, util_1.getResponseData)(false, 'login fail!'));
+            }
+        }
+    };
     LoginController.prototype.logout = function (req, res) {
         if (req.session) {
             req.session.login = undefined;
@@ -31,6 +47,12 @@ var LoginController = /** @class */ (function () {
             res.send("\n          <html>\n              <body>\n                  <form method = \"post\" action = \"/login\">\n                      <input type = \"password\" name = \"password\">\n                      <button>login</button>\n                  </form>\n              </body>\n          </html>\n      ");
         }
     };
+    __decorate([
+        (0, decorators_1.post)('/login'),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object]),
+        __metadata("design:returntype", void 0)
+    ], LoginController.prototype, "login", null);
     __decorate([
         (0, decorators_1.get)('/logout'),
         __metadata("design:type", Function),

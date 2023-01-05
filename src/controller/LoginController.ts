@@ -1,6 +1,6 @@
 import { request, Request, Response } from 'express';
 import 'reflect-metadata';
-import { get, controller } from './decorators';
+import { get, controller, post } from './decorators';
 import { getResponseData } from '../utils/util';
 
 // 問題1: express 庫的類型定義文件 .d.ts 文件類型描述不準確
@@ -13,8 +13,25 @@ interface BodyRequest extends Request {
 
 @controller
 class LoginController {
+  @post('/login')
+  login(req: BodyRequest, res: Response) {
+    const { password } = req.body;
+    const isLogin = req.session ? req.session.login : false;
+
+    if (isLogin) {
+      res.json(getResponseData(false, 'you have already logged in'));
+    } else {
+      if (password === '123' && req.session) {
+        req.session.login = true;
+        res.json(getResponseData(true));
+      } else {
+        res.json(getResponseData(false, 'login fail!'));
+      }
+    }
+  }
+
   @get('/logout')
-  logout(req: BodyRequest, res: Response){
+  logout(req: BodyRequest, res: Response) {
     if (req.session) {
       req.session.login = undefined;
     }

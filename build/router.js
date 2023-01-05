@@ -26,6 +26,16 @@ const checkLogin = (req: Request, res: Response, next: NextFunction) => {
 
 const router = Router();
 
+router.get('/', () => {});
+
+router.get('/logout', (req: BodyRequest, res: Response) => {
+  if (req.session) {
+    req.session.login = undefined;
+  }
+  //res.redirect('/');
+  res.json(getResponseData(true));
+});
+
 router.get('/getData', checkLogin, (req: BodyRequest, res: Response) => {
   const secret = 'secretKey';
   const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`; // 勿斷行, superagent 讀不到
@@ -48,19 +58,7 @@ router.get('/showData', checkLogin, (req: BodyRequest, res: Response) => {
 router.post('/login', (req: BodyRequest, res: Response) => {
   //console.log(req.body)
   //once req.body is undefined, it have to install middleware
-  const { password } = req.body;
-  const isLogin = req.session ? req.session.login : false;
-
-  if (isLogin) {
-    res.json(getResponseData(false, 'you have already logged in'));
-  } else {
-    if (password === '123' && req.session) {
-      req.session.login = true;
-      res.json(getResponseData(true));
-    } else {
-      res.json(getResponseData(false, 'login fail!'));
-    }
-  }
+  
 });
 
 export default router;
