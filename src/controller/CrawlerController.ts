@@ -15,8 +15,14 @@ interface BodyRequest extends Request {
   };
 }
 
+const test = (req: Request, res: Response, next: NextFunction): void => {
+  console.log('test middleware');
+  next();
+};
+
 const checkLogin = (req: Request, res: Response, next: NextFunction): void => {
   const isLogin = !!(req.session ? req.session.login : false); // force convert to bool type
+  console.log('check login middleware');
   if (isLogin) {
     next();
   } else {
@@ -28,6 +34,7 @@ const checkLogin = (req: Request, res: Response, next: NextFunction): void => {
 export class CrawlerController {
   @get('/getData')
   @use(checkLogin)
+  @use(test)
   getData(req: BodyRequest, res: Response): void {
     const secret = 'secretKey';
     const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`; // 勿斷行, superagent 讀不到

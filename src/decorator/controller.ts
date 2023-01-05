@@ -13,16 +13,16 @@ export function controller(root: string) {
         key
       );
       const handler = target.prototype[key];
-      const middleware: RequestHandler = Reflect.getMetadata(
-        'middleware',
+      const middlewares: RequestHandler[] = Reflect.getMetadata(
+        'middlewares',
         target.prototype,
         key
       );
 
       if (path && method) {
         const fullPath = root === '/' ? path : `${root}${path}`;
-        if (middleware) {
-          router[method](fullPath, middleware, handler); // 生成的路由存在router裡面
+        if (middlewares && middlewares.length) {
+          router[method](fullPath, ...middlewares, handler); // 生成的路由存在router裡面
         } else {
           router[method](fullPath, handler); // 生成的路由存在router裡面
         }

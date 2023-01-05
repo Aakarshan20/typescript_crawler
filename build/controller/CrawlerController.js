@@ -20,8 +20,13 @@ var analyzer_1 = __importDefault(require("../utils/analyzer"));
 var crawler_1 = __importDefault(require("../utils/crawler"));
 var fs_1 = __importDefault(require("fs"));
 var path_1 = __importDefault(require("path"));
+var test = function (req, res, next) {
+    console.log('test middleware');
+    next();
+};
 var checkLogin = function (req, res, next) {
     var isLogin = !!(req.session ? req.session.login : false); // force convert to bool type
+    console.log('check login middleware');
     if (isLogin) {
         next();
     }
@@ -53,6 +58,7 @@ var CrawlerController = /** @class */ (function () {
     __decorate([
         (0, index_1.get)('/getData'),
         (0, index_1.use)(checkLogin),
+        (0, index_1.use)(test),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object, Object]),
         __metadata("design:returntype", void 0)
