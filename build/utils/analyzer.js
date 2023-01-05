@@ -32,26 +32,18 @@ var DellAnalyzer = /** @class */ (function () {
         };
     };
     DellAnalyzer.prototype.generateJsonContent = function (courseInfo, filePath) {
-        console.log(1234);
         var fileContent = {};
-        console.log('filepppppppppppath::' + filePath);
         if (fs_1.default.existsSync(filePath)) {
-            console.log(1235);
-            fileContent = JSON.parse(fs_1.default.readFileSync(filePath, 'utf-8'));
-            console.log('fffffffffffffileContent::' + fileContent);
-            console.log(1236);
+            if (fs_1.default.readFileSync(filePath, 'utf-8')) {
+                fileContent = JSON.parse(fs_1.default.readFileSync(filePath, 'utf-8'));
+            }
         }
-        console.log(1237);
         fileContent[courseInfo.time] = courseInfo.data;
         return fileContent;
     };
     DellAnalyzer.prototype.analyze = function (html, filePath) {
-        console.log(7777777);
         var courseInfo = this.getCourseInfo(html);
-        console.log(99999);
-        console.log('filePath::::' + filePath);
         var fileContent = this.generateJsonContent(courseInfo, filePath);
-        console.log(10000002);
         return JSON.stringify(fileContent);
     };
     return DellAnalyzer;

@@ -33,12 +33,10 @@ var CrawlerController = /** @class */ (function () {
     function CrawlerController() {
     }
     CrawlerController.prototype.getData = function (req, res) {
-        console.log('===============>');
         var secret = 'secretKey';
         var url = "http://www.dell-lee.com/typescript/demo.html?secret=".concat(secret); // 勿斷行, superagent 讀不到
         var fileName = 'course.json'; // the filename saved
         var analyzer = analyzer_1.default.getInstance();
-        console.log('=======>' + analyzer);
         new crawler_1.default(url, fileName, analyzer);
         res.json((0, util_1.getResponseData)(true));
     };

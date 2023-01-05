@@ -58,26 +58,18 @@ export default class DellAnalyzer implements Analyzer {
   }
 
   private generateJsonContent(courseInfo: CourseResult, filePath: string) {
-    console.log(1234);
     let fileContent: Content = {};
-    console.log('filepppppppppppath::' + filePath);
     if (fs.existsSync(filePath)) {
-      console.log(1235);
-      fileContent = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-      console.log('fffffffffffffileContent::' + fileContent);
-      console.log(1236);
+      if (fs.readFileSync(filePath, 'utf-8')) {
+        fileContent = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+      }
     }
-    console.log(1237);
     fileContent[courseInfo.time] = courseInfo.data;
     return fileContent;
   }
   public analyze(html: string, filePath: string) {
-    console.log(7777777);
     const courseInfo = this.getCourseInfo(html);
-    console.log(99999);
-    console.log('filePath::::' + filePath);
     const fileContent = this.generateJsonContent(courseInfo, filePath);
-    console.log(10000002);
     return JSON.stringify(fileContent);
   }
 }

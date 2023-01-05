@@ -29,12 +29,10 @@ export class CrawlerController {
   @get('/getData')
   @use(checkLogin)
   getData(req: BodyRequest, res: Response): void {
-    console.log('===============>');
     const secret = 'secretKey';
     const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`; // 勿斷行, superagent 讀不到
     const fileName = 'course.json'; // the filename saved
     const analyzer = Analyzer.getInstance();
-    console.log('=======>' + analyzer);
     new Crawler(url, fileName, analyzer);
     res.json(getResponseData(true));
   }
