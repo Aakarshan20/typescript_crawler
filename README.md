@@ -1,5 +1,7 @@
 # typescript_crawler
 
+_backend project_
+
 ## init
 
 - generate package.json
@@ -149,4 +151,54 @@ https://github.com/expressjs/cookie-session
 
 ```
 npm  install reflect-metadata --save
+```
+
+## use create-react-app
+
+- uninstall old version ( global )
+
+```
+npm uninstall create-react-app -g
+```
+
+- download latest create-react-app if not exist, it will named react-project and use typescript as template and dependent by npm
+
+```
+npx create-react-app react-project --template typescript --use-npm
+```
+
+_if not response, try these command below: change mirror source_
+
+```
+npm config set registry https://registry.npmjs.org/
+```
+
+_show current mirror source_
+
+```
+npm config get registry
+```
+
+_if stuck in some command_
+
+```
+npm cache clean --force
+```
+
+- initial npm
+
+```
+npm init
+```
+
+- download via npm but not npx
+
+```
+npm install create-react-app
+```
+
+- install by npx and typescript npm
+
+```
+npx create-react-app react-project --template typescript --use-npm
 ```
