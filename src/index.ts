@@ -3,7 +3,8 @@ import express from 'express';
 //import router from './router'
 import { router } from './controller/decorators';
 import './controller/LoginController';
-import bodyParser from 'body-parser'
+import './controller/CrawlerController';
+import bodyParser from 'body-parser';
 import cookieSession from 'cookie-session';
 
 // 問題1: express 庫的類型定義文件 .d.ts 文件類型描述不準確
@@ -15,15 +16,16 @@ app.use(bodyParser.urlencoded({ extended: false })); // have to before .use(rout
 //     req.teacherName = 'dell'; // 因為定義了custom.d.ts 所以request的內容進行了融合
 //     next();
 // })
-app.use(cookieSession({
+app.use(
+  cookieSession({
     name: 'session',
     keys: ['teachar dell'],
     // Cookie Options
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
-  }))
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+  })
+);
 app.use(router);
 
-app.listen(7001, ()=>{
-    console.log('server is running');
-})
-
+app.listen(7001, () => {
+  console.log('server is running');
+});

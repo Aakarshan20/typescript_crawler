@@ -1,11 +1,11 @@
 // ts->.d.ts(translate file) ->js
 // visit https://www.npmjs.com/package/node and search @types/[js file you wanna translate]
-import superagent from "superagent"; // ts cannot read js file
-import fs from "fs"; // from node
-import path from "path"; // from node
+import superagent from 'superagent'; // ts cannot read js file
+import fs from 'fs'; // from node
+import path from 'path'; // from node
 
-import DellAnalyzer from "./analyzer";
-import LeeAnalyzer from "../leeAnalyzer";
+import DellAnalyzer from './analyzer';
+import LeeAnalyzer from '../leeAnalyzer';
 
 export interface Analyzer {
   analyze: (html: string, filePath: string) => string;
@@ -41,7 +41,6 @@ class Crawler {
 }
 
 export default Crawler;
-
 
 // 以下代碼移至  router.ts
 // const secret = "secretKey";

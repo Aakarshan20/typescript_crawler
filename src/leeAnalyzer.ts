@@ -1,4 +1,4 @@
-import { Analyzer } from "./crawler"; // if you don't exprt default, use curly brackets
+import { Analyzer } from './crawler'; // if you don't exprt default, use curly brackets
 
 // for the seek of import
 export default class LeeAnalyzer implements Analyzer {
