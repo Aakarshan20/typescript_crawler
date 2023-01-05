@@ -1,14 +1,15 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.del = exports.put = exports.post = exports.get = exports.use = exports.controller = exports.router = void 0;
-var express_1 = require("express");
-//import { RequestHandler } from 'express-serve-static-core';
-exports.router = (0, express_1.Router)();
-var Method;
-(function (Method) {
-    Method["get"] = "get";
-    Method["post"] = "post";
-})(Method || (Method = {}));
+exports.post = exports.get = exports.use = exports.controller = void 0;
+var router_1 = __importDefault(require("../router"));
+var Methods;
+(function (Methods) {
+    Methods["get"] = "get";
+    Methods["post"] = "post";
+})(Methods || (Methods = {}));
 function controller(target) {
     for (var key in target.prototype) {
         var path = Reflect.getMetadata('path', target.prototype, key);
@@ -17,10 +18,10 @@ function controller(target) {
         var middleware = Reflect.getMetadata('middleware', target.prototype, key);
         if (path && method && handler) {
             if (middleware) {
-                exports.router[method](path, middleware, handler); // 生成的路由存在router裡面
+                router_1.default[method](path, middleware, handler); // 生成的路由存在router裡面
             }
             else {
-                exports.router[method](path, handler); // 生成的路由存在router裡面
+                router_1.default[method](path, handler); // 生成的路由存在router裡面
             }
         }
     }
@@ -42,7 +43,7 @@ function getRequestDecorator(type) {
         };
     };
 }
-exports.get = getRequestDecorator('get');
-exports.post = getRequestDecorator('post');
-exports.put = getRequestDecorator('put');
-exports.del = getRequestDecorator('delete');
+exports.get = getRequestDecorator(Methods.get);
+exports.post = getRequestDecorator(Methods.post);
+// export const put = getRequestDecorator(Methods.put);
+// export const del = getRequestDecorator(Methods.delete);

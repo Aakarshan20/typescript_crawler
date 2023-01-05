@@ -52,6 +52,8 @@ var Crawler = /** @class */ (function () {
         this.analyzer = analyzer;
         this.filePath = path_1.default.resolve(__dirname, "../../data/".concat(this.fileName)); // generate path ../data/course.json
         this.fileName = fileName;
+        console.log('this.fileName:::' + this.fileName);
+        console.log('this.analyzer:::' + this.analyzer);
         this.initSpiderProcess();
     }
     Crawler.prototype.getRawHtml = function () {
@@ -68,6 +70,7 @@ var Crawler = /** @class */ (function () {
         });
     };
     Crawler.prototype.writeFile = function (content) {
+        console.log('===================>' + this.filePath);
         fs_1.default.writeFileSync(this.filePath, content);
     };
     Crawler.prototype.initSpiderProcess = function () {
@@ -75,10 +78,14 @@ var Crawler = /** @class */ (function () {
             var html, fileContent;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.getRawHtml()];
+                    case 0:
+                        console.log(88888999);
+                        return [4 /*yield*/, this.getRawHtml()];
                     case 1:
                         html = _a.sent();
+                        console.log('html:::' + html);
                         fileContent = this.analyzer.analyze(html, this.filePath);
+                        console.log('content--------------->' + fileContent);
                         this.writeFile(fileContent);
                         return [2 /*return*/];
                 }

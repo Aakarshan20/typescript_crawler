@@ -21,13 +21,17 @@ class Crawler {
   }
 
   private writeFile(content: string) {
+    console.log('===================>' + this.filePath);
     fs.writeFileSync(this.filePath, content);
   }
 
   private async initSpiderProcess() {
+    console.log(88888999);
     // for decoupling
     const html = await this.getRawHtml();
+    console.log('html:::' + html);
     const fileContent = this.analyzer.analyze(html, this.filePath);
+    console.log('content--------------->' + fileContent);
     this.writeFile(fileContent);
   }
   constructor(
@@ -36,6 +40,8 @@ class Crawler {
     private analyzer: Analyzer
   ) {
     this.fileName = fileName;
+    console.log('this.fileName:::' + this.fileName);
+    console.log('this.analyzer:::' + this.analyzer);
     this.initSpiderProcess();
   }
 }

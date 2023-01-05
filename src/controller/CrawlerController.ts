@@ -1,6 +1,6 @@
 import { request, Request, Response, NextFunction } from 'express';
 import 'reflect-metadata';
-import { get, controller, use } from './decorators';
+import { controller, use, get } from '../decorator/index';
 import { getResponseData } from '../utils/util';
 import Analyzer from '../utils/analyzer';
 import Crawler from '../utils/crawler';
@@ -15,8 +15,8 @@ interface BodyRequest extends Request {
   };
 }
 
-const checkLogin = (req: Request, res: Response, next: NextFunction) => {
-  const isLogin = req.session ? req.session.login : false;
+const checkLogin = (req: Request, res: Response, next: NextFunction): void => {
+  const isLogin = !!(req.session ? req.session.login : false); // force convert to bool type
   if (isLogin) {
     next();
   } else {
@@ -24,22 +24,24 @@ const checkLogin = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-@controller
-class CrawlerController {
+@controller('/')
+export class CrawlerController {
   @get('/getData')
   @use(checkLogin)
-  getData(req: BodyRequest, res: Response) {
+  getData(req: BodyRequest, res: Response): void {
+    console.log('===============>');
     const secret = 'secretKey';
     const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`; // 勿斷行, superagent 讀不到
     const fileName = 'course.json'; // the filename saved
     const analyzer = Analyzer.getInstance();
+    console.log('=======>' + analyzer);
     new Crawler(url, fileName, analyzer);
     res.json(getResponseData(true));
   }
 
   @get('/showData')
   @use(checkLogin)
-  showData(req: BodyRequest, res: Response) {
+  showData(req: BodyRequest, res: Response): void {
     try {
       const position = path.resolve(__dirname, '../../data/course.json');
       const result = fs.readFileSync(position, 'utf8');

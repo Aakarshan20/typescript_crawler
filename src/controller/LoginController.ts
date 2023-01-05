@@ -1,6 +1,6 @@
 import { request, Request, Response } from 'express';
 import 'reflect-metadata';
-import { get, controller, post } from './decorators';
+import { controller, get, post } from '../decorator/index';
 import { getResponseData } from '../utils/util';
 
 // 問題1: express 庫的類型定義文件 .d.ts 文件類型描述不準確
@@ -11,12 +11,16 @@ interface BodyRequest extends Request {
   };
 }
 
-@controller
-class LoginController {
+@controller('/')
+export class LoginController {
+  static isLogin(req: BodyRequest): boolean {
+    return !!(req.session ? req.session.login : false); // force convert to bool type
+  }
+
   @post('/login')
-  login(req: BodyRequest, res: Response) {
+  login(req: BodyRequest, res: Response): void {
     const { password } = req.body;
-    const isLogin = req.session ? req.session.login : false;
+    const isLogin = LoginController.isLogin(req);
 
     if (isLogin) {
       res.json(getResponseData(false, 'you have already logged in'));
@@ -31,7 +35,7 @@ class LoginController {
   }
 
   @get('/logout')
-  logout(req: BodyRequest, res: Response) {
+  logout(req: BodyRequest, res: Response): void {
     if (req.session) {
       req.session.login = undefined;
     }
@@ -39,8 +43,8 @@ class LoginController {
     res.json(getResponseData(true));
   }
   @get('/')
-  home(req: BodyRequest, res: Response) {
-    const isLogin = req.session ? req.session.login : false;
+  home(req: BodyRequest, res: Response): void {
+    const isLogin = LoginController.isLogin(req);
     if (isLogin) {
       res.send(`
           <html>
