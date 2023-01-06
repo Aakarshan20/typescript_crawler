@@ -17,6 +17,16 @@ export class LoginController {
     return !!(req.session ? req.session.login : false); // force convert to bool type
   }
 
+  @get('/api/isLogin')
+  isLogin(req: BodyRequest, res: Response): void {
+    const isLogin = LoginController.isLogin(req);
+    if (isLogin) {
+      res.json(getResponseData(true));
+    } else {
+      res.json(getResponseData(false, 'please login'));
+    }
+  }
+
   @post('/login')
   login(req: BodyRequest, res: Response): void {
     const { password } = req.body;

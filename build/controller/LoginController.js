@@ -20,6 +20,15 @@ var LoginController = /** @class */ (function () {
     LoginController.isLogin = function (req) {
         return !!(req.session ? req.session.login : false); // force convert to bool type
     };
+    LoginController.prototype.isLogin = function (req, res) {
+        var isLogin = LoginController_1.isLogin(req);
+        if (isLogin) {
+            res.json((0, util_1.getResponseData)(true));
+        }
+        else {
+            res.json((0, util_1.getResponseData)(false, 'please login'));
+        }
+    };
     LoginController.prototype.login = function (req, res) {
         var password = req.body.password;
         var isLogin = LoginController_1.isLogin(req);
@@ -53,6 +62,12 @@ var LoginController = /** @class */ (function () {
         }
     };
     var LoginController_1;
+    __decorate([
+        (0, index_1.get)('/api/isLogin'),
+        __metadata("design:type", Function),
+        __metadata("design:paramtypes", [Object, Object]),
+        __metadata("design:returntype", void 0)
+    ], LoginController.prototype, "isLogin", null);
     __decorate([
         (0, index_1.post)('/login'),
         __metadata("design:type", Function),
